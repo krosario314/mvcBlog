@@ -18,7 +18,6 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sess = {
   secret: 'bigbluedog',
   cookie: {
-        // to have the session expire
         expires: 10 * 60 * 1000
   },
   resave: true,
@@ -28,6 +27,7 @@ const sess = {
     db: sequelize
   }),
 };
+
 app.use(session(sess));
 
 app.use(express.json());
