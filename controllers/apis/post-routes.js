@@ -34,6 +34,7 @@ router.get('/', (req, res) => {
         res.status(500).json(err);
       });
   });
+
   router.get('/:id', (req, res) => {
     Post.findOne({
       where: {
@@ -60,7 +61,7 @@ router.get('/', (req, res) => {
         }
       ]
     })
-    .then(dbPostData => {
+      .then(dbPostData => {
         if (!dbPostData) {
           res.status(404).json({ message: 'No post found with this id' });
           return;
@@ -72,7 +73,8 @@ router.get('/', (req, res) => {
         res.status(500).json(err);
       });
   });
-  router.post('/', withAuth, (req, res) => {
+
+router.post('/', withAuth, (req, res) => {
     Post.create({
       title: req.body.title,
       post_content: req.body.post_content,
@@ -84,6 +86,7 @@ router.get('/', (req, res) => {
         res.status(500).json(err);
       });
 });
+
 router.put('/:id', withAuth, (req, res) => {
     Post.update({
         title: req.body.title,
