@@ -2,7 +2,7 @@ const router = require('express').Router();
 const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
-// find all
+// authorized to findAll
 router.get('/', withAuth, (req, res) => {
     Post.findAll({
       where: {
@@ -38,7 +38,7 @@ router.get('/', withAuth, (req, res) => {
         res.status(500).json(err);
       });
   });
-  // find one
+  // authorized to findOne
   router.get('/edit/:id', withAuth, (req, res) => {
     Post.findOne({
       where: {
@@ -83,8 +83,7 @@ router.get('/', withAuth, (req, res) => {
         res.status(500).json(err);
       });
 });
-
-// find all
+// authorized create findAll
 router.get('/create/', withAuth, (req, res) => {
     Post.findAll({
       where: {
