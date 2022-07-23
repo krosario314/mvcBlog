@@ -46,7 +46,6 @@ router.get('/', (req, res) => {
         'post_content'
       ],
       include: [
-        // include the Comment model here:
         {
           model: User,
           attributes: ['username', 'twitter', 'github']
@@ -61,3 +60,27 @@ router.get('/', (req, res) => {
         }
       ]
     })
+    .then(dbPostData => {
+        if (!dbPostData) {
+          res.status(404).json({ message: 'No post found with this id' });
+          return;
+        }
+        res.json(dbPostData);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  });
+  router.post('/', withAuth, (req, res) => {
+    Post.create({
+      title: req.body.title,
+      post_content: req.body.post_content,
+      user_id: req.session.user_id
+    })
+      .then(dbPostData => res.json(dbPostData))
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+});
