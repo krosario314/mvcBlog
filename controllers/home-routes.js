@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
-
+// req sess to findAll
 router.get('/', (req, res) => {
     console.log(req.session);
     
@@ -39,8 +39,8 @@ router.get('/', (req, res) => {
         res.status(500).json(err);
       });
   });
-
-  router.get('/login', (req, res) => {
+// req sess with loggedIn
+router.get('/login', (req, res) => {
     if (req.session.loggedIn) {
       res.redirect('/');
       return;
@@ -57,6 +57,7 @@ router.get('/', (req, res) => {
   
     res.render('signup');
   });
+
   router.get('/post/:id', (req, res) => {
     Post.findOne({
       where: {
@@ -83,3 +84,23 @@ router.get('/', (req, res) => {
         }
       ]
     })
+      .then(dbPostData => {
+        if (!dbPostData) {
+          res.status(404).json({ message: 'No post found with this id' });
+          return;
+        }
+  
+        const post = dbPostData.get({ plain: true });
+  
+        res.render('single-post', {
+            post,
+            loggedIn: req.session.loggedIn
+          });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+});
+
+module.exports = router;
