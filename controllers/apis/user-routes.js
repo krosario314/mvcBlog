@@ -47,3 +47,24 @@ router.get('/:id', (req, res) => {
         res.status(500).json(err);
       });
   });
+
+router.post('/', (req, res) => {
+    User.create({
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      twitter: req.body.twitter,
+      github: req.body.github
+    })
+    .then(dbUserData => {
+      req.session.save(() => {
+        req.session.user_id = dbUserData.id;
+        req.session.username = dbUserData.username;
+        req.session.twitter = dbUserData.twitter;
+        req.session.github = dbUserData.github;
+        req.session.loggedIn = true;
+    
+        res.json(dbUserData);
+      });
+    });
+  });
