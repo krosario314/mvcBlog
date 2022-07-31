@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
-// req sess to findAll
+
 router.get('/', (req, res) => {
     console.log(req.session);
     
@@ -39,7 +39,7 @@ router.get('/', (req, res) => {
         res.status(500).json(err);
       });
   });
-// req sess with loggedIn
+
 router.get('/login', (req, res) => {
     if (req.session.loggedIn) {
       res.redirect('/');
@@ -90,8 +90,10 @@ router.get('/login', (req, res) => {
           return;
         }
   
+        // serialize the data
         const post = dbPostData.get({ plain: true });
   
+        // pass data to template
         res.render('single-post', {
             post,
             loggedIn: req.session.loggedIn

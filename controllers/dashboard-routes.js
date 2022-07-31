@@ -2,10 +2,11 @@ const router = require('express').Router();
 const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
-// authorized to findAll
+
 router.get('/', withAuth, (req, res) => {
     Post.findAll({
       where: {
+        // use the ID from the session
         user_id: req.session.user_id
       },
       attributes: [
@@ -30,6 +31,7 @@ router.get('/', withAuth, (req, res) => {
       ]
     })
       .then(dbPostData => {
+        // serialize data before passing to template
         const posts = dbPostData.map(post => post.get({ plain: true }));
         res.render('dashboard', { posts, loggedIn: true });
       })
@@ -38,7 +40,7 @@ router.get('/', withAuth, (req, res) => {
         res.status(500).json(err);
       });
   });
-  // authorized to findOne
+
   router.get('/edit/:id', withAuth, (req, res) => {
     Post.findOne({
       where: {
@@ -71,6 +73,7 @@ router.get('/', withAuth, (req, res) => {
           return;
         }
   
+        // serialize the data
         const post = dbPostData.get({ plain: true });
 
         res.render('edit-post', {
@@ -83,10 +86,11 @@ router.get('/', withAuth, (req, res) => {
         res.status(500).json(err);
       });
 });
-// authorized create findAll
+
 router.get('/create/', withAuth, (req, res) => {
     Post.findAll({
       where: {
+        // use the ID from the session
         user_id: req.session.user_id
       },
       attributes: [
@@ -111,6 +115,7 @@ router.get('/create/', withAuth, (req, res) => {
       ]
     })
       .then(dbPostData => {
+        // serialize data before passing to template
         const posts = dbPostData.map(post => post.get({ plain: true }));
         res.render('create-post', { posts, loggedIn: true });
       })
