@@ -1,5 +1,7 @@
 {{> post-info post}}
 
+<!-- displaying form and comments-->
+<!-- only display if logged in -->
 {{#if loggedIn}}
 <form class="comment-form">
   <div>
@@ -16,5 +18,5 @@
 {{> comments post.comments}}
 
 {{#if loggedIn}}
-<script src="/mvcBlog/public/javascript/comment.js"></script>
+<script src="../public/javascript/comment.js"></script>
 {{/if}}
