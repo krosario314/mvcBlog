@@ -22,4 +22,4 @@ SO THAT I can publish articles, blog posts, and my thoughts and opinions
 ## Resources
 * [Github repo](https://github.com/krosario314/mvcBlog)
 * [My Github](https://github.com/krosario314)
-* [Heroku](https://devsblog22.herokuapp.com/)
+* [Heroku](https://git.heroku.com/devsblog22.git/)
